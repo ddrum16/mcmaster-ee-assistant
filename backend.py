@@ -4,9 +4,14 @@ from langchain_openai import ChatOpenAI
 import streamlit as st
 
 load_dotenv()
+# Default: local .env
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if "OPENAI_API_KEY" in st.secrets:
+
+# Cloud override: only if secrets exist
+try:
     OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+except Exception:
+    pass
 
 def get_llm(model_choice):
     if model_choice == "GPT-5.4 regular (advanced reasoning)":
